@@ -1,0 +1,116 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build (gcc-13, C17)",
+      "type": "shell",
+      "command": "gcc-13",
+      "args": [
+        "-std=gnu17",
+        "-g",
+        "-O0",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-fdiagnostics-color=always",
+        "-pipe",
+        "${file}",
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Build (clang, C17)",
+      "type": "shell",
+      "command": "clang",
+      "args": [
+        "-std=gnu17",
+        "-g",
+        "-O0",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-fdiagnostics-color=always",
+        "-pipe",
+        "${file}",
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}"
+      ],
+      "group": "build",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run",
+      "type": "shell",
+      "dependsOn": "Build (gcc-13, C17)",
+      "dependsOrder": "sequence",
+      "command": "${fileDirname}/${fileBasenameNoExtension}",
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      }
+    },
+    {
+      "label": "Run with args…",
+      "type": "shell",
+      "dependsOn": "Build (gcc-13, C17)",
+      "dependsOrder": "sequence",
+      "command": "${fileDirname}/${fileBasenameNoExtension}",
+      "args": [
+        "${input:programArgs}"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      }
+    },
+    {
+      "label": "Clean",
+      "type": "shell",
+      "command": "rm -f ${fileDirname}/${fileBasenameNoExtension}",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "programArgs",
+      "type": "promptString",
+      "description": "Введите аргументы командной строки",
+      "default": ""
+    }
+  ]
+}
